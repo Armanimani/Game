@@ -7,11 +7,10 @@
 #include <QtCore\qdebug.h>
 #include "src\SandboxGame\Settings\SanboxSettings.h"
 #include "src\Engine\Loader\Loader.h"
-#include "src\Engine\Render Engine\Renderer.h"
-#include "src\Engine\Model\ShapeData.h"
+#include "src\Engine\Renderer\Renderer.h"
+#include "src\Engine\Model\Model.h"
+#include "src\Engine\Model\TexturedModel.h"
 #include "src\Engine\Entities\Entity.h"
-#include "src\Engine\Shader\BasicShader.h"
-#include "src\Engine\Shader\BasicTexturedShader.h"
 
 class SandboxWindow : public QGLWidget{
 
@@ -33,9 +32,8 @@ private:
 
 	Loader loader;
 	Renderer renderer;
-
-	ShapeData shape;
-	BasicTexturedShader basicShader;
+	ColoredModel model;
+	TexturedModel model2;
 
 	QTimer timer;
 	Clock clock;

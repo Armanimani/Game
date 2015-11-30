@@ -1,16 +1,17 @@
 #pragma once
-#include "ShapeData.h"
+#include "src\Engine\Model\Model.h"
+#include "src\Engine\Model\ColoredModel.h"
+#include "src\Engine\Model\TexturedModel.h"
 #include <QtCore\qstring.h>
 #include <glm\glm.hpp>
 class ShapeGenerator
 {
 
 public:
-	static ShapeData createTriangle_type1();
-	static ShapeData createTriangle_type2();
-	static ShapeData createTriangle_type3();
-	static ShapeData createCubeTest();
-	static ShapeData createObjectFromObjFile(QString fileName, glm::vec3 &color = glm::vec3(0.0f, 0.0f, 0.0f));
+	static ColoredModel create_colored_triangle();
+	static TexturedModel create_textured_triangle();
+	static Model createCubeTest();
+	static Model createObjectFromObjFile(QString fileName, glm::vec3 &color = glm::vec3(0.0f, 0.0f, 0.0f));
 
 };
 

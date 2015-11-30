@@ -6,7 +6,7 @@ void Shader::installShader(){
 
 }
 
-void Shader::startPorgram(){
+void Shader::startProgram(){
 
 	glUseProgram(programID);
 }
@@ -14,6 +14,10 @@ void Shader::startPorgram(){
 void Shader::stopProgram(){
 
 	glUseProgram(0);
+}
+
+void Shader::render(Entity &entity){
+
 }
 
 void Shader::cleanUp(){

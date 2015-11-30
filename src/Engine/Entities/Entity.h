@@ -1,19 +1,30 @@
 #pragma once;
-#include "src\Engine\Model\ShapeData.h"
+#include "src\Engine\Model\Model.h"
+#include "src\Engine\Model\ColoredModel.h"
+#include "src\Engine\Model\TexturedModel.h"
 #include <glm\glm.hpp>
 
 class Entity{
 
 public:
 
-	Entity(ShapeData &shape) : shape(&shape){}
-	inline ShapeData &getShape(){ return *shape; }
+	Entity(Model *model, int shaderID) : model(model), shaderID(shaderID){}
+
+
+	inline int& getShaderID() { return shaderID; }
+	inline Model& getModel(){ return *model; }
+	inline glm::vec3& getPosition(){ return position; }
+	inline glm::vec3& getRotation(){ return rotation; }
+	inline glm::vec3& getScale(){ return scale; }
+
+	Model *model;
 	
-	ShapeData *shape;
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 scale = glm::vec3(0.0f, 0.0f, 0.0f);
 
 private:
-	
+
+	int shaderID;
+
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 };

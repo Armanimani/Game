@@ -14,6 +14,9 @@ bool SandboxWindow::initialize(){
 		return state;
 	}
 
+	
+
+
 	return true;
 }
 
@@ -33,19 +36,18 @@ bool SandboxWindow::shutdown(){
 void SandboxWindow::initializeGL(){
 	
 	glewInit();
+	renderer.initialize();
 
-	basicShader.installShader();
-	basicShader.startPorgram();
-	
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(1000 / settings.eng.MAX_FPS);
 
-	shape = ShapeGenerator::createTriangle_type3();
+	model = ShapeGenerator::create_colored_triangle();
+	model2 = ShapeGenerator::create_textured_triangle();
+	loader.processModel(&model2);
 
+	loader.load();
 
-	loader.loadObject(shape);
-
-	Entity entity = Entity(shape);
+	Entity entity = Entity(&model2,2);
 	renderer.processEntities(entity);
 
 }
@@ -56,9 +58,6 @@ void SandboxWindow::paintGL(){
 	renderer.prepare();
 	
 	renderer.render();
-
-	
-
 
 }
 
@@ -75,3 +74,6 @@ void SandboxWindow::checkKeyState(){
 		close();
 	}
 }
+
+
+//deconstrutor: renderer.cleanup();

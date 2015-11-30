@@ -1,4 +1,5 @@
 #include "src\Engine\Shader\BasicTexturedShader.h"
+#include "src\Engine\Model\TexturedModel.h"
 
 void BasicTexturedShader::installShader(){
 
@@ -30,4 +31,16 @@ void BasicTexturedShader::installShader(){
 	}
 
 	getAllUniformLocations();
+}
+
+void BasicTexturedShader::render(Entity &entity){
+
+	startProgram();
+	glBindVertexArray(entity.model->getVertexArrayObjectID());
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, entity.model->getTexture().bufferID);
+
+	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+	stopProgram();
 }

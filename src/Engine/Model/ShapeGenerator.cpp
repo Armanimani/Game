@@ -8,28 +8,11 @@
 
 using std::vector;
 
-ShapeData ShapeGenerator::createTriangle_type1(){
-	
-	ShapeData ret;
+ColoredModel ShapeGenerator::create_colored_triangle(){
 
-	ret.verts = {
+	ColoredModel ret;
 
-		+0.0f, +1.0f, +0.0f,
-		-1.0f, -1.0f, +0.0f,
-		+1.0f, -1.0f, +0.0,
-	};
-
-	ret.indicies = { 0, 1, 2 };
-	ret.type = 1;
-
-	return ret;
-}
-
-ShapeData ShapeGenerator::createTriangle_type2(){
-
-	ShapeData ret;
-
-	ret.verts = {
+	vector<float> verts = {
 
 		+0.0f, +1.0f, +0.0f,
 		+1.0f, +0.0f, +0.0f,
@@ -41,17 +24,19 @@ ShapeData ShapeGenerator::createTriangle_type2(){
 		+0.0f, +0.0f, +1.0f,
 	};
 
-	ret.indicies = { 0, 1, 2 };
-	ret.type = 2;
+	vector<GLuint> indicies = { 0, 1, 2 };
+
+	ret.setVerts(verts);
+	ret.setIndinces(indicies);
 
 	return ret;
 }
 
-ShapeData ShapeGenerator::createTriangle_type3(){
+TexturedModel ShapeGenerator::create_textured_triangle(){
 
-	ShapeData ret;
-
-	ret.verts = {
+	TexturedModel ret;
+	Texture texture;
+	vector<float> verts = {
 
 		+0.0f, +1.0f, +0.0f,
 		+0.0f, +1.0f,
@@ -63,18 +48,21 @@ ShapeData ShapeGenerator::createTriangle_type3(){
 		+1.0f, +0.0f,
 	};
 
-	ret.indicies = { 0, 1, 2 };
-	ret.type = 3;
-	ret.texture.path = "res/texture/test.png";
-	ret.texture.width = 296;
-	ret.texture.height = 296;
+	vector<GLuint> indicies = { 0, 1, 2 };
 
+	texture.path = "res/texture/test.png";
+	texture.width = 296;
+	texture.height = 296;
+	
+	ret.setVerts(verts);
+	ret.setIndinces(indicies);
+	ret.setTexture(texture);
 	return ret;
 }
 
-ShapeData ShapeGenerator::createCubeTest(){
+Model ShapeGenerator::createCubeTest(){
 
-	ShapeData ret;
+	Model ret;
 
 	//Vertex vert[] = {
 
@@ -203,9 +191,9 @@ ShapeData ShapeGenerator::createCubeTest(){
 	return ret;
 }
 
-ShapeData ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color){
+Model ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color){
 
-	ShapeData ret;
+	Model ret;
 	/*QString path = fileName;
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);

@@ -2,12 +2,15 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <fstream>
+#include "src\Engine\Entities\Entity.h"
 class Shader
 {
 public:
-	void startPorgram();
+	void startProgram();
 	void stopProgram();
 	virtual void installShader();
+
+	virtual void render(Entity &entity);
 
 	virtual void loadTransformationMatrix(glm::mat4 &matrix);
 	virtual void loadProjectionMatrix(glm::mat4 &matrix);
