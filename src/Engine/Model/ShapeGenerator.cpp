@@ -39,13 +39,13 @@ TexturedModel ShapeGenerator::create_textured_triangle(){
 	vector<float> verts = {
 
 		+0.0f, +1.0f, +0.0f,
-		+0.0f, +1.0f,
+		+0.0f, -1.0f,
 
 		-1.0f, -1.0f, +0.0f,
-		+0.0f, +0.0f,
+		+0.0f, -0.0f,
 
 		+1.0f, -1.0f, +0.0,
-		+1.0f, +0.0f,
+		+1.0f, -0.0f,
 	};
 
 	vector<GLuint> indicies = { 0, 1, 2 };
