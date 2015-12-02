@@ -245,7 +245,7 @@ TexturedModel ShapeGenerator::loadTexturedModelOBJFile(OBJFile model) {
 
 				faceData.push_back(prop.at(0).toFloat());
 				faceData.push_back(prop.at(1).toFloat());
-				//faceData.push_back(prop.at(2).toFloat());
+				/*faceData.push_back(prop.at(2).toFloat());*/
 			}
 		}
 	}
@@ -256,7 +256,7 @@ TexturedModel ShapeGenerator::loadTexturedModelOBJFile(OBJFile model) {
 	map<int, int>vertexTextureMap;
 	map<int, int>vertexNormalMap;
 
-	for (int i = 0; i != faceData.size(); i += 3){
+	for (int i = 0; i != faceData.size(); i += 2){
 
 		index.push_back(faceData[i] - 1);
 		vertexTextureMap[faceData[i] - 1] = faceData[i + 1] - 1;

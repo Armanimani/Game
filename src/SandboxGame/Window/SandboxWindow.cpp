@@ -50,8 +50,8 @@ void SandboxWindow::initializeGL(){
 	model2 = ShapeGenerator::create_textured_triangle();
 
 	OBJFile cat;
-	cat.modelPath = "res/models/cat.obj";
-	cat.texturePath = "res/texture/cat.png";
+	cat.modelPath = "res/models/test.obj";
+	cat.texturePath = "res/texture/M9.png";
 	cat.textureWidth = 512;
 	cat.textureHeight = 1024;
 	model2 = ShapeGenerator::loadTexturedModelOBJFile(cat);
@@ -61,7 +61,7 @@ void SandboxWindow::initializeGL(){
 
 	loader.load();
 
-	ModelEntity entity = ModelEntity(&model2,2,vec3(0.0,0.0,0.0),vec3(0.0,0.0,0.0),vec3(4,4,4));
+	ModelEntity entity = ModelEntity(&model2,2,vec3(0.0,0.0,0.0),vec3(0.0,0.0,0.0),vec3(0.05,0.05,0.05));
 	renderer.processEntity(entity);
 
 }
