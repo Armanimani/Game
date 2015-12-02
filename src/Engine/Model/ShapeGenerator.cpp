@@ -191,10 +191,10 @@ Model ShapeGenerator::createCubeTest(){
 	return ret;
 }
 
-Model ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color){
+ColoredModel ShapeGenerator::createTexturedObjectFromObjFile(QString fileName) {
 
-	Model ret;
-	/*QString path = fileName;
+	ColoredModel ret;
+	QString path = fileName;
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	QTextStream input(&file);
@@ -205,7 +205,7 @@ Model ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color
 	}
 
 	std::vector<float> vertexPositions;
-	std::vector<float> normalPositions;
+	std::vector<float> texturePositions;
 	std::vector<int> indexOrders;
 
 	while (!input.atEnd()){
@@ -213,26 +213,25 @@ Model ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color
 		QString line = input.readLine();
 		QStringList list = line.split(" ");
 
-		if (list.size() == 5 & list.at(0) == "v"){
+		if (list.at(0) == "v"){
 
+			vertexPositions.push_back(list.at(1).toFloat());
 			vertexPositions.push_back(list.at(2).toFloat());
 			vertexPositions.push_back(list.at(3).toFloat());
-			vertexPositions.push_back(list.at(4).toFloat());
 		}
 
-		if (list.size() == 4 & list.at(0) == "vn"){
+		if  (list.at(0) == "vt"){
 
-			normalPositions.push_back(list.at(1).toFloat());
-			normalPositions.push_back(list.at(2).toFloat());
-			normalPositions.push_back(list.at(3).toFloat());
+			texturePositions.push_back(list.at(1).toFloat());
+			texturePositions.push_back(list.at(2).toFloat());
 		}
 
-		if (list.size() == 5 & list.at(0) == "f"){
+		if (list.at(0) == "f"){
 
 			for (int i = 1; i != 4; ++i){
 
 				QString line2 = list.at(i);
-				QStringList prop = line2.split("//");
+				QStringList prop = line2.split("/");
 
 				indexOrders.push_back(prop.at(0).toFloat());
 				indexOrders.push_back(prop.at(1).toFloat());
@@ -240,39 +239,34 @@ Model ShapeGenerator::createObjectFromObjFile(QString fileName, glm::vec3 &color
 		}
 	}
 
-	int numVerticies = vertexPositions.size() / 3;
-	ret.numVerticies = numVerticies;
-	ret.verticies = new Vertex[ret.numVerticies];
+	vector<float> verts;
+	vector<GLuint> index;
+	for (int j = 0; j != indexOrders.size(); j = j + 2){
 
-	int numIndicies = indexOrders.size() / 2;
-	ret.numIndicies = numIndicies;
-	ret.indicies = new GLushort[ret.numIndicies];
+		int num = indexOrders[j];
+		verts.push_back(num * 3);
+		verts.push_back(num * 3 + 1);
+		verts.push_back(num * 3 + 2);
 
-	int cnt = 0;
-	int vindex = 0;
-	int nindex = 0;
-	int vertIndex = 0;
-	for (int j = 0; j != numIndicies; ++j){
+		index.push_back(num);
 
-		vindex = indexOrders.at(cnt) - 1;
+		num = indexOrders[j + 1] - 1;
 
-		ret.verticies[vindex].position[0] = vertexPositions.at(vindex * 3);
-		ret.verticies[vindex].position[1] = vertexPositions.at(vindex * 3 + 1);
-		ret.verticies[vindex].position[2] = vertexPositions.at(vindex * 3 + 2);
+		verts.push_back(1.0f);
+		verts.push_back(1.0f);
+		verts.push_back(1.0f);
 
-		ret.verticies[vindex].color[0] = color[0];
-		ret.verticies[vindex].color[1] = color[1];
-		ret.verticies[vindex].color[2] = color[2];
 
-		nindex = indexOrders.at(cnt + 1) - 1;
+	}
 
-		ret.verticies[vindex].normal[0] = normalPositions.at(nindex * 3);
-		ret.verticies[vindex].normal[1] = normalPositions.at(nindex * 3 + 1);
-		ret.verticies[vindex].normal[2] = normalPositions.at(nindex * 3 + 2);
+	ret.setVerts(verts);
+	ret.setIndinces(index);
 
-		ret.indicies[j] = indexOrders.at(cnt) - 1;
-		cnt = cnt + 2;
-	}*/
-
+	//Texture texture;
+	//texture.path = "res/texture/cat.png";
+	//texture.width = 512;
+	//texture.height = 1024;
+	//ret.setTexture(texture);
+	
 	return ret;
 }

@@ -51,7 +51,7 @@ void SandboxWindow::initializeGL(){
 
 	loader.load();
 
-	ModelEntity entity = ModelEntity(&model2,2,vec3(0.2,0.2,-5.0),vec3(0.0,0.0,0.0),vec3(1,1,1));
+	ModelEntity entity = ModelEntity(&model2,2,vec3(0.0,0.0,-10.0),vec3(0.0,0.0,0.0),vec3(1,1,1));
 	renderer.processEntity(entity);
 
 }
@@ -91,22 +91,22 @@ void SandboxWindow::checkKeyState(){
 		camera.cameraTranslate(glm::vec2(-0.01, 0.0));
 	}
 	else if (GetAsyncKeyState(VK_LEFT)){
-		camera.cameraRotateY(0.1f);
+		camera.cameraRotateY(0.5f);
 	}
 	else if (GetAsyncKeyState(VK_RIGHT)){
-		camera.cameraRotateY(-0.1f);
+		camera.cameraRotateY(-0.5f);
 	}
 	else if (GetAsyncKeyState(VK_UP)){
-		camera.cameraRotateX(+0.1f);
+		camera.cameraRotateX(+0.5f);
 	}
 	else if (GetAsyncKeyState(VK_DOWN)){
-		camera.cameraRotateX(-0.1f);
+		camera.cameraRotateX(-0.5f);
 	}
 	else if (GetAsyncKeyState('Q')){
-		camera.cameraZoom(+0.01f);
+		camera.cameraZoom(+0.05f);
 	}
 	else if (GetAsyncKeyState('E')){
-		camera.cameraZoom(-0.01f);
+		camera.cameraZoom(-0.05f);
 	}
 }
 
