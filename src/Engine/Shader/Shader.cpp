@@ -120,6 +120,8 @@ bool Shader::checkProgramStatus(GLuint programID){
 
 void Shader::loadTransformationMatrix(glm::mat4 &matrix){
 
+
+
 }
 void Shader::loadProjectionMatrix(glm::mat4 &matrix){
 

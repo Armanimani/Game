@@ -1,4 +1,7 @@
 #include "src\Engine\Shader\BasicShader.h"
+#include "src\Engine\Math\GLMath.h"
+
+using glm::mat4;
 
 void BasicShader::installShader(){
 	vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -31,10 +34,23 @@ void BasicShader::installShader(){
 	getAllUniformLocations();
 }
 
-void BasicShader::render(ModelEntity &ModelEntity){
+void BasicShader::render(ModelEntity &entity){
 	
 	startProgram();
-	glBindVertexArray(ModelEntity.model->getVertexArrayObjectID());
-	glDrawElements(GL_TRIANGLES, ModelEntity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+	loadTransformationMatrix(GLMath::createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale()));
+	glBindVertexArray(entity.model->getVertexArrayObjectID());
+	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 	stopProgram();
+}
+
+void BasicShader::getAllUniformLocations(){
+
+	std::string string = "transformationMatrix";
+	location_transformationMatrix = getUniformLocation(string);
+
+}
+
+void BasicShader::loadTransformationMatrix(mat4 &matrix){
+
+	loadToUniform(location_transformationMatrix, matrix);
 }

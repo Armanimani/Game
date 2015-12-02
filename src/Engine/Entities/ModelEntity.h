@@ -9,6 +9,8 @@ class ModelEntity{
 public:
 
 	ModelEntity(Model *model, int shaderID) : model(model), shaderID(shaderID){}
+	ModelEntity(Model *model, int shaderID, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) :
+		model(model), shaderID(shaderID), position(position), rotation(rotation), scale(scale){}
 
 
 	inline int& getShaderID() { return shaderID; }

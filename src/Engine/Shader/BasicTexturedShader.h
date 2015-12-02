@@ -8,5 +8,12 @@ public:
 	void installShader();
 
 	void render(ModelEntity &ModelEntity);
+	void loadTransformationMatrix(glm::mat4  &matrix);
+
+private:
+
+	GLuint location_transformationMatrix;
+
+	void getAllUniformLocations();
 
 };
