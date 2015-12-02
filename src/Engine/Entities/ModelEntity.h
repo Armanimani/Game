@@ -18,7 +18,7 @@ public:
 	inline glm::vec3& getScale(){ return scale; }
 
 	Model *model;
-	
+
 
 private:
 

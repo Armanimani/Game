@@ -30,8 +30,8 @@ void Renderer::render(){
 
 }
 
-void Renderer::processEntity(ModelEntity &modelEntity){
+void Renderer::processEntity(ModelEntity &ModelEntity){
 
-	modelRenderer.processEntities(modelEntity);
+	modelRenderer.processEntities(ModelEntity);
 
 }
