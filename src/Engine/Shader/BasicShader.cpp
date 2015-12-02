@@ -31,10 +31,10 @@ void BasicShader::installShader(){
 	getAllUniformLocations();
 }
 
-void BasicShader::render(Entity &entity){
+void BasicShader::render(ModelEntity &ModelEntity){
 	
 	startProgram();
-	glBindVertexArray(entity.model->getVertexArrayObjectID());
-	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(ModelEntity.model->getVertexArrayObjectID());
+	glDrawElements(GL_TRIANGLES, ModelEntity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 	stopProgram();
 }

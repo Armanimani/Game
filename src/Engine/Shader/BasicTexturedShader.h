@@ -7,6 +7,6 @@ public:
 
 	void installShader();
 
-	void render(Entity &entity);
+	void render(ModelEntity &ModelEntity);
 
 };

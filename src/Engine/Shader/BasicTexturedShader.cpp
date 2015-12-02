@@ -33,14 +33,14 @@ void BasicTexturedShader::installShader(){
 	getAllUniformLocations();
 }
 
-void BasicTexturedShader::render(Entity &entity){
+void BasicTexturedShader::render(ModelEntity &ModelEntity){
 
 	startProgram();
-	glBindVertexArray(entity.model->getVertexArrayObjectID());
+	glBindVertexArray(ModelEntity.model->getVertexArrayObjectID());
 	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, entity.model->getTexture().bufferID);
+	glBindTexture(GL_TEXTURE_2D, ModelEntity.model->getTexture().bufferID);
 
-	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, ModelEntity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 	stopProgram();
 }

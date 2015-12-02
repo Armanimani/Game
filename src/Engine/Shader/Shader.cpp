@@ -16,7 +16,7 @@ void Shader::stopProgram(){
 	glUseProgram(0);
 }
 
-void Shader::render(Entity &entity){
+void Shader::render(ModelEntity &ModelEntity){
 
 }
 

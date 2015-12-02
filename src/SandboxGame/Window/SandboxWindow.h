@@ -10,7 +10,7 @@
 #include "src\Engine\Renderer\Renderer.h"
 #include "src\Engine\Model\Model.h"
 #include "src\Engine\Model\TexturedModel.h"
-#include "src\Engine\Entities\Entity.h"
+#include "src\Engine\Entities\ModelEntity.h"
 
 class SandboxWindow : public QGLWidget{
 

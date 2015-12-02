@@ -43,12 +43,12 @@ void SandboxWindow::initializeGL(){
 
 	model = ShapeGenerator::create_colored_triangle();
 	model2 = ShapeGenerator::create_textured_triangle();
-	loader.processModel(&model2);
+	loader.processModel(&model);
 
 	loader.load();
 
-	Entity entity = Entity(&model2,2);
-	renderer.processEntities(entity);
+	ModelEntity entity = ModelEntity(&model,1);
+	renderer.processEntity(entity);
 
 }
 
@@ -76,4 +76,4 @@ void SandboxWindow::checkKeyState(){
 }
 
 
-//deconstrutor: renderer.cleanup();
+//deconstrutor: ModelRenderer.cleanup();

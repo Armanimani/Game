@@ -2,7 +2,7 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <fstream>
-#include "src\Engine\Entities\Entity.h"
+#include "src\Engine\Entities\ModelEntity.h"
 class Shader
 {
 public:
@@ -10,7 +10,7 @@ public:
 	void stopProgram();
 	virtual void installShader();
 
-	virtual void render(Entity &entity);
+	virtual void render(ModelEntity &ModelEntity);
 
 	virtual void loadTransformationMatrix(glm::mat4 &matrix);
 	virtual void loadProjectionMatrix(glm::mat4 &matrix);

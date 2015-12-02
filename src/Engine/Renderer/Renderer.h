@@ -1,29 +1,24 @@
 #pragma once
-#include <vector>
-#include "src\Engine\Model\Model.h"
-#include "src\Engine\Entities\Entity.h"
-#include "src\Engine\Shader\BasicShader.h"
-#include "src\Engine\Shader\BasicTexturedShader.h"
+#include "src\Engine\Renderer\ModelRenderer.h"
 
-class Renderer{
+class Renderer {
 
 public:
 
+	Renderer();
+	~Renderer();
+
 	void initialize();
-	void cleanUp();
 	void prepare();
+	void cleanUp();
+
 	void render();
-	void render(Entity &entity);
-	inline void processEntities(Entity entity){ entities.push_back(entity); }
-	
+
+	void processEntity(ModelEntity &entity);
+
+
 private:
 
-	std::vector<Entity> entities;
+	ModelRenderer modelRenderer;
 
-	BasicShader basicShader;
-	BasicTexturedShader basicTexturedShader;
-
-
-	Shader* getShader(int ShaderID);
-	
 };

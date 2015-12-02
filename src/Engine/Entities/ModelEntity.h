@@ -4,11 +4,11 @@
 #include "src\Engine\Model\TexturedModel.h"
 #include <glm\glm.hpp>
 
-class Entity{
+class ModelEntity{
 
 public:
 
-	Entity(Model *model, int shaderID) : model(model), shaderID(shaderID){}
+	ModelEntity(Model *model, int shaderID) : model(model), shaderID(shaderID){}
 
 
 	inline int& getShaderID() { return shaderID; }
