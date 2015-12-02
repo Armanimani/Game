@@ -39,24 +39,32 @@ void BasicTexturedShader::installShader(){
 void BasicTexturedShader::render(ModelEntity &entity){
 
 	startProgram();
+
 	loadTransformationMatrix(GLMath::createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale()));
+	loadProjectionMatrix();
+	loadViewMatrix();
+
 	glBindVertexArray(entity.model->getVertexArrayObjectID());
 	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, entity.model->getTexture().bufferID);
 
 	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+
 	stopProgram();
 }
 
 void BasicTexturedShader::getAllUniformLocations(){
 
-	std::string string = "transformationMatrix";
+	std::string string = " ";
+
+	string = "transformationMatrix";
 	location_transformationMatrix = getUniformLocation(string);
 
-}
+	string = "projectionMatrix";
+	location_projectionMatrix = getUniformLocation(string);
 
-void BasicTexturedShader::loadTransformationMatrix(mat4 &matrix){
+	string = "viewMatrix";
+	location_viewMatrix = getUniformLocation(string);
 
-	loadToUniform(location_transformationMatrix, matrix);
 }

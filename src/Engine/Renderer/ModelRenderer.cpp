@@ -1,13 +1,21 @@
 #include "GL\glew.h"
 #include "src\Engine\Renderer\ModelRenderer.h"
+#include "glm\glm.hpp"
 
-void ModelRenderer::initialize(){
+using glm::mat4;
+void ModelRenderer::installShaders(){
 
 	basicShader.installShader();
 	basicTexturedShader.installShader();
 
 }
 
+void ModelRenderer::initialize( mat4 &projectionMatrix, mat4 &viewMatrix){
+
+	basicShader.initialize(projectionMatrix, viewMatrix);
+	basicTexturedShader.initialize(projectionMatrix, viewMatrix);
+
+}
 void ModelRenderer::cleanUp(){
 	
 	basicShader.cleanUp();

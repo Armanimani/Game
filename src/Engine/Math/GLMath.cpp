@@ -16,3 +16,10 @@ mat4 GLMath::createTransformationMatrix(vec3 &translation, vec3 &rotation, vec3 
 	return scaleMatrix;
 
 }
+
+glm::mat4 GLMath::createProjectionMatrix(float FOV, float aspectRatio, float farPlane, float nearPlane){
+
+	return  glm::perspective(glm::radians(FOV), aspectRatio, nearPlane, farPlane);
+
+}
+

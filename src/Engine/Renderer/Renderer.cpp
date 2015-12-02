@@ -1,5 +1,5 @@
 #include "src\Engine\Renderer\Renderer.h"
-
+using glm::mat4;
 Renderer::Renderer(){
 
 }
@@ -10,7 +10,18 @@ Renderer::~Renderer(){
 
 void Renderer::initialize(){
 
-	modelRenderer.initialize();
+	modelRenderer.installShaders();
+	modelRenderer.initialize(projectionMatrix, viewMatrix);
+}
+
+void Renderer::assignCamera(Camera &camera){
+	
+	this->camera = &camera;
+}
+
+void Renderer::setProjectionMatrix(glm::mat4 projectionMatrix){
+
+	this->projectionMatrix = projectionMatrix;
 }
 
 void Renderer::prepare(){
@@ -26,12 +37,15 @@ void Renderer::cleanUp(){
 
 void Renderer::render(){
 
-	modelRenderer.render();
+	prepare();
+	viewMatrix = camera->getViewMatrix();
 
+	modelRenderer.render();
 }
 
 void Renderer::processEntity(ModelEntity &ModelEntity){
 
 	modelRenderer.processEntities(ModelEntity);
+
 
 }

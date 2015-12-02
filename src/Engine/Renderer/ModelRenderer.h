@@ -9,7 +9,8 @@ class ModelRenderer{
 
 public:
 
-	void initialize();
+	void installShaders();
+	void initialize(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix);
 	void cleanUp();
 	void prepare();
 	void render();

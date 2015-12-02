@@ -10,11 +10,11 @@ public:
 	void stopProgram();
 	virtual void installShader();
 
-	virtual void render(ModelEntity &ModelEntity);
-
-	virtual void loadTransformationMatrix(glm::mat4 &matrix);
-	virtual void loadProjectionMatrix(glm::mat4 &matrix);
-	virtual void loadViewMatrix(glm::mat4 &matrix);
+	void initialize(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix);
+	virtual void Shader::render(ModelEntity &ModelEntity);
+	void loadTransformationMatrix(glm::mat4 &matrix);
+	void loadProjectionMatrix();
+	void loadViewMatrix();
 	virtual void loadShineDamper(GLfloat);
 	virtual void loadCameraPosition(glm::vec3 position);
 
@@ -25,9 +25,16 @@ protected:
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
 
+	glm::mat4 *projectionMatrix;
+	glm::mat4 *viewMatrix;
+
+	GLuint location_transformationMatrix;
+	GLuint location_projectionMatrix;
+	GLuint location_viewMatrix;
+
+
 	std::string readShaderCode(const GLchar* fileName);
 
-	void bindAttributes(GLuint &attribute, std::string &varriableName);
 	GLint getUniformLocation(std::string &uniformName);
 	virtual void getAllUniformLocations();
 

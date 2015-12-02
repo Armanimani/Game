@@ -37,20 +37,28 @@ void BasicShader::installShader(){
 void BasicShader::render(ModelEntity &entity){
 	
 	startProgram();
+
 	loadTransformationMatrix(GLMath::createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale()));
+	loadProjectionMatrix();
+	loadViewMatrix();
+
 	glBindVertexArray(entity.model->getVertexArrayObjectID());
 	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
+
 	stopProgram();
 }
 
 void BasicShader::getAllUniformLocations(){
 
-	std::string string = "transformationMatrix";
+	std::string string = " ";
+
+	string = "transformationMatrix";
 	location_transformationMatrix = getUniformLocation(string);
 
-}
+	string = "projectionMatrix";
+	location_projectionMatrix = getUniformLocation(string);
 
-void BasicShader::loadTransformationMatrix(mat4 &matrix){
+	string = "viewMatrix";
+	location_viewMatrix = getUniformLocation(string);
 
-	loadToUniform(location_transformationMatrix, matrix);
 }

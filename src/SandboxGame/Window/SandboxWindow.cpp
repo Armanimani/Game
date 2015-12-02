@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "src\Engine\Model\ShapeGenerator.h"
+#include "src\Engine\Math\GLMath.h"
 using std::vector;
 using glm::vec3;
 
@@ -38,6 +39,8 @@ void SandboxWindow::initializeGL(){
 	
 	glewInit();
 	renderer.initialize();
+	renderer.setProjectionMatrix(GLMath::createProjectionMatrix(settings.eng.FOV, (float)(width()) / (float)(height()), settings.eng.FAR_PLANE, settings.eng.NEAR_PLANE));
+	renderer.assignCamera(camera);
 
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(1000 / settings.eng.MAX_FPS);
@@ -48,7 +51,7 @@ void SandboxWindow::initializeGL(){
 
 	loader.load();
 
-	ModelEntity entity = ModelEntity(&model2,2,vec3(0.2,0.2,0.0),vec3(0.0,0.0,0.0),vec3(0.1,0.1,0.1));
+	ModelEntity entity = ModelEntity(&model2,2,vec3(0.2,0.2,-5.0),vec3(0.0,0.0,0.0),vec3(1,1,1));
 	renderer.processEntity(entity);
 
 }

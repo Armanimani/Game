@@ -1,6 +1,9 @@
 #include "src\Engine\Shader\Shader.h"
 #include <fstream>
 #include <iostream>
+#include "glm\glm.hpp"
+
+using glm::mat4;
 
 void Shader::installShader(){
 
@@ -14,6 +17,12 @@ void Shader::startProgram(){
 void Shader::stopProgram(){
 
 	glUseProgram(0);
+}
+
+void Shader::initialize(mat4 &projectionMatrix, mat4 &viewMatrix){
+
+	this->projectionMatrix = &projectionMatrix;
+	this->viewMatrix = &viewMatrix;
 }
 
 void Shader::render(ModelEntity &ModelEntity){
@@ -42,11 +51,6 @@ std::string Shader::readShaderCode(const GLchar* fileName){
 	return std::string(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
 }
 
-
-void Shader::bindAttributes(GLuint &attribute, std::string &varriableName){
-
-	glBindAttribLocation(programID, attribute, varriableName.c_str());
-}
 
 GLint Shader::getUniformLocation(std::string &uniformName){
 
@@ -120,14 +124,16 @@ bool Shader::checkProgramStatus(GLuint programID){
 
 void Shader::loadTransformationMatrix(glm::mat4 &matrix){
 
-
-
-}
-void Shader::loadProjectionMatrix(glm::mat4 &matrix){
+	loadToUniform(location_transformationMatrix, matrix);
 
 }
-void Shader::loadViewMatrix(glm::mat4 &matrix){
+void Shader::loadProjectionMatrix(){
 
+	loadToUniform(location_projectionMatrix, *projectionMatrix);
+}
+void Shader::loadViewMatrix(){
+
+	loadToUniform(location_viewMatrix, *viewMatrix);
 }
 void Shader::loadShineDamper(GLfloat){
 
