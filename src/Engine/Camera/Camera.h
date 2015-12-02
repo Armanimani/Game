@@ -22,6 +22,12 @@ public:
 
 	void reset();
 
+	void cameraTranslate(glm::vec2 Delta);
+	void cameraZoom(float Delta);
+	void cameraRotateX(float Delta);
+	void cameraRotateY(float Delta);
+	void cameraRotateZ(float Delta);
+	void cameraOrbit(glm::vec2 Delta);
 
 private:
 
@@ -32,12 +38,7 @@ private:
 	glm::vec3 upDirection = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 rightDirection = glm::vec3(1.0f, 0.0f, 0.0f);
 
-	void cameraTranslate(glm::vec2 Delta);
-	void cameraZoom(float Delta);
-	void cameraRotateX(float Delta);
-	void cameraRotateY(float Delta);
-	void cameraRotateZ(float Delta);
-	void cameraOrbit(glm::vec2 Delta);
+
 
 
 };

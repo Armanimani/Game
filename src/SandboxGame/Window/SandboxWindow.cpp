@@ -76,6 +76,37 @@ void SandboxWindow::checkKeyState(){
 
 	if (GetAsyncKeyState(VK_ESCAPE)){
 		close();
+	} 
+	else if(GetAsyncKeyState('W')){
+		camera.cameraTranslate(glm::vec2(0.0, -0.01));
+
+	}
+	else if (GetAsyncKeyState('S')){
+		camera.cameraTranslate(glm::vec2(0.0, +0.01));
+	}
+	else if (GetAsyncKeyState('A')){
+		camera.cameraTranslate(glm::vec2(0.01, 0.0));
+	}
+	else if (GetAsyncKeyState('D')){
+		camera.cameraTranslate(glm::vec2(-0.01, 0.0));
+	}
+	else if (GetAsyncKeyState(VK_LEFT)){
+		camera.cameraRotateY(0.1f);
+	}
+	else if (GetAsyncKeyState(VK_RIGHT)){
+		camera.cameraRotateY(-0.1f);
+	}
+	else if (GetAsyncKeyState(VK_UP)){
+		camera.cameraRotateX(+0.1f);
+	}
+	else if (GetAsyncKeyState(VK_DOWN)){
+		camera.cameraRotateX(-0.1f);
+	}
+	else if (GetAsyncKeyState('Q')){
+		camera.cameraZoom(+0.01f);
+	}
+	else if (GetAsyncKeyState('E')){
+		camera.cameraZoom(-0.01f);
 	}
 }
 

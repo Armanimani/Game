@@ -34,7 +34,6 @@ private:
 	Renderer renderer;
 	ColoredModel model;
 	TexturedModel model2;
-
 	Camera camera;
 
 	QTimer timer;
