@@ -51,6 +51,9 @@ void BasicTexturedShader::render(ModelEntity &entity){
 
 	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 
+	glBindVertexArray(0);
+
+
 	stopProgram();
 }
 

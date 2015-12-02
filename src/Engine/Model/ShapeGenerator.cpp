@@ -5,8 +5,10 @@
 #include <QtCore\qtextstream.h>
 #include <vector>
 #include <glm\glm.hpp>
+#include <map>
 
 using std::vector;
+using std::map;
 
 ColoredModel ShapeGenerator::create_colored_triangle(){
 
@@ -191,10 +193,10 @@ Model ShapeGenerator::createCubeTest(){
 	return ret;
 }
 
-ColoredModel ShapeGenerator::createTexturedObjectFromObjFile(QString fileName) {
+TexturedModel ShapeGenerator::loadTexturedModelOBJFile(OBJFile model) {
 
-	ColoredModel ret;
-	QString path = fileName;
+	TexturedModel ret;
+	QString path = QString::fromStdString(model.modelPath);
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	QTextStream input(&file);
@@ -204,9 +206,10 @@ ColoredModel ShapeGenerator::createTexturedObjectFromObjFile(QString fileName) {
 		return ret;
 	}
 
-	std::vector<float> vertexPositions;
-	std::vector<float> texturePositions;
-	std::vector<int> indexOrders;
+	std::vector<float> vertexData;
+	std::vector<float> normalData;
+	std::vector<float> textureData;
+	std::vector<int> faceData;
 
 	while (!input.atEnd()){
 
@@ -215,15 +218,22 @@ ColoredModel ShapeGenerator::createTexturedObjectFromObjFile(QString fileName) {
 
 		if (list.at(0) == "v"){
 
-			vertexPositions.push_back(list.at(1).toFloat());
-			vertexPositions.push_back(list.at(2).toFloat());
-			vertexPositions.push_back(list.at(3).toFloat());
+			vertexData.push_back(list.at(1).toFloat());
+			vertexData.push_back(list.at(2).toFloat());
+			vertexData.push_back(list.at(3).toFloat());
 		}
 
 		if  (list.at(0) == "vt"){
 
-			texturePositions.push_back(list.at(1).toFloat());
-			texturePositions.push_back(list.at(2).toFloat());
+			textureData.push_back(list.at(1).toFloat());
+			textureData.push_back(list.at(2).toFloat());
+		}
+
+		if (list.at(0) == "n"){
+
+			normalData.push_back(list.at(1).toFloat());
+			normalData.push_back(list.at(2).toFloat());
+			normalData.push_back(list.at(3).toFloat());
 		}
 
 		if (list.at(0) == "f"){
@@ -233,40 +243,56 @@ ColoredModel ShapeGenerator::createTexturedObjectFromObjFile(QString fileName) {
 				QString line2 = list.at(i);
 				QStringList prop = line2.split("/");
 
-				indexOrders.push_back(prop.at(0).toFloat());
-				indexOrders.push_back(prop.at(1).toFloat());
+				faceData.push_back(prop.at(0).toFloat());
+				faceData.push_back(prop.at(1).toFloat());
+				//faceData.push_back(prop.at(2).toFloat());
 			}
 		}
 	}
 
 	vector<float> verts;
 	vector<GLuint> index;
-	for (int j = 0; j != indexOrders.size(); j = j + 2){
 
-		int num = indexOrders[j];
-		verts.push_back(num * 3);
-		verts.push_back(num * 3 + 1);
-		verts.push_back(num * 3 + 2);
+	map<int, int>vertexTextureMap;
+	map<int, int>vertexNormalMap;
 
-		index.push_back(num);
+	for (int i = 0; i != faceData.size(); i += 3){
 
-		num = indexOrders[j + 1] - 1;
+		index.push_back(faceData[i] - 1);
+		vertexTextureMap[faceData[i] - 1] = faceData[i + 1] - 1;
+		//vertexNormalMap[faceData[i] - 1] = faceData[i + 2] - 1;
+	}
 
-		verts.push_back(1.0f);
-		verts.push_back(1.0f);
-		verts.push_back(1.0f);
+
+	for (int i = 0; i != vertexTextureMap.size(); ++i){
+		
+		int ind = i;
+		verts.push_back(vertexData[3 * ind]);
+		verts.push_back(vertexData[3 * ind + 1]);
+		verts.push_back(vertexData[3 * ind + 2]);
+		
+		ind = vertexTextureMap[i];
+		verts.push_back(textureData[2 * ind]);
+		verts.push_back(textureData[2 * ind + 1]);
 
 
 	}
 
+
+	
+	
 	ret.setVerts(verts);
 	ret.setIndinces(index);
 
-	//Texture texture;
-	//texture.path = "res/texture/cat.png";
-	//texture.width = 512;
-	//texture.height = 1024;
-	//ret.setTexture(texture);
+	Texture texture;
+	texture.path = model.texturePath;
+	texture.width = model.textureWidth;
+	texture.height = model.textureHeight;
+	ret.setTexture(texture);
+
+
+	
+
 	
 	return ret;
 }

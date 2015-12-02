@@ -4,6 +4,7 @@
 #include "src\Engine\Model\TexturedModel.h"
 #include <QtCore\qstring.h>
 #include <glm\glm.hpp>
+#include "src\Engine\Model\OBJFile.h"
 class ShapeGenerator
 {
 
@@ -11,7 +12,10 @@ public:
 	static ColoredModel create_colored_triangle();
 	static TexturedModel create_textured_triangle();
 	static Model createCubeTest();
-	static ColoredModel createTexturedObjectFromObjFile(QString fileName);
+	static TexturedModel loadTexturedModelOBJFile(OBJFile model);
 
+
+private:
+	 
 };
 
