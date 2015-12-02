@@ -47,11 +47,11 @@ void SandboxWindow::initializeGL(){
 
 	model = ShapeGenerator::create_colored_triangle();
 	model2 = ShapeGenerator::create_textured_triangle();
-	loader.processModel(&model2);
+	loader.processModel(&model);
 
 	loader.load();
 
-	ModelEntity entity = ModelEntity(&model2,2,vec3(0.2,0.2,-5.0),vec3(0.0,0.0,0.0),vec3(1,1,1));
+	ModelEntity entity = ModelEntity(&model,1,vec3(0.2,0.2,-5.0),vec3(0.0,0.0,0.0),vec3(1,1,1));
 	renderer.processEntity(entity);
 
 }

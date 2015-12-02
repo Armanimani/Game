@@ -11,7 +11,7 @@ out vec3 theColor;
 
 void main(){
 	
-	gl_Position = viewMatrix * projectionMatrix * transformationMatrix * vec4(position,1.0);
+	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(position,1.0);
 	theColor = vertexColor;
 
 };

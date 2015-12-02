@@ -12,7 +12,7 @@ out vec2 theTexture;
 
 void main(){
 	
-	gl_Position = viewMatrix * projectionMatrix * transformationMatrix * vec4(vertexPosition,1.0);
+	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(vertexPosition,1.0);
 	theTexture = vertexTexture;
 
 };
