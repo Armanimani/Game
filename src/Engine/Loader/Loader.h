@@ -8,6 +8,7 @@ public:
 	
 	void processModel(Model *model);
 	void load();
+	void cleanUp();
 
 	
 

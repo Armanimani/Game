@@ -19,13 +19,12 @@ void Shader::stopProgram(){
 	glUseProgram(0);
 }
 
-void Shader::initialize(mat4 &projectionMatrix, mat4 &viewMatrix){
-
-	this->projectionMatrix = &projectionMatrix;
-	this->viewMatrix = &viewMatrix;
+void Shader::initialize(Scene &scene){
+	
+	this->scene = &scene;
 }
 
-void Shader::render(ModelEntity &ModelEntity){
+void Shader::render(Entity &entity){
 
 }
 
@@ -129,11 +128,11 @@ void Shader::loadTransformationMatrix(glm::mat4 &matrix){
 }
 void Shader::loadProjectionMatrix(){
 
-	loadToUniform(location_projectionMatrix, *projectionMatrix);
+	loadToUniform(location_projectionMatrix, scene->getProjectionMatrix());
 }
 void Shader::loadViewMatrix(){
 
-	loadToUniform(location_viewMatrix, *viewMatrix);
+	loadToUniform(location_viewMatrix, scene->getViewMatrix());
 }
 void Shader::loadShineDamper(GLfloat){
 

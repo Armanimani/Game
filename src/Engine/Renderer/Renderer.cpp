@@ -10,19 +10,18 @@ Renderer::~Renderer(){
 
 void Renderer::initialize(){
 
-	modelRenderer.installShaders();
-	modelRenderer.initialize(projectionMatrix, viewMatrix);
+	coloredModelRenderer.installShaders();
+
+	texturedModelRenderer.installShaders();
 }
 
-void Renderer::assignCamera(Camera &camera){
-	
-	this->camera = &camera;
+void Renderer::assignScene(Scene &scene){
+
+	this->scene = &scene;
+	coloredModelRenderer.assignScene(scene);
+	texturedModelRenderer.assignScene(scene);
 }
 
-void Renderer::setProjectionMatrix(glm::mat4 projectionMatrix){
-
-	this->projectionMatrix = projectionMatrix;
-}
 
 void Renderer::prepare(){
 
@@ -33,20 +32,26 @@ void Renderer::prepare(){
 
 void Renderer::cleanUp(){
 
-	modelRenderer.cleanUp();
+	coloredModelRenderer.cleanUp();
+	texturedModelRenderer.cleanUp();
 }
 
 void Renderer::render(){
 
 	prepare();
-	viewMatrix = camera->getViewMatrix();
 
-	modelRenderer.render();
+	coloredModelRenderer.render();
+	texturedModelRenderer.render();
 }
 
-void Renderer::processEntity(ModelEntity &ModelEntity){
+void Renderer::processEntity(ColoredModelEntity &entity){
 
-	modelRenderer.processEntities(ModelEntity);
+	coloredModelRenderer.processEntities(entity);
 
 
+}
+
+void Renderer::processEntity(TexturedModelEntity &entity){
+
+	texturedModelRenderer.processEntities(entity);
 }

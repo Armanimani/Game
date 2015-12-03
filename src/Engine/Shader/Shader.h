@@ -2,7 +2,8 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <fstream>
-#include "src\Engine\Entities\ModelEntity.h"
+#include "src\Engine\Entities\Entity.h"
+#include "src\Engine\Scene\Scene.h"
 class Shader
 {
 public:
@@ -10,8 +11,8 @@ public:
 	void stopProgram();
 	virtual void installShader();
 
-	void initialize(glm::mat4 &projectionMatrix, glm::mat4 &viewMatrix);
-	virtual void Shader::render(ModelEntity &ModelEntity);
+	void initialize(Scene &scene);
+	virtual void Shader::render(Entity &entity);
 	void loadTransformationMatrix(glm::mat4 &matrix);
 	void loadProjectionMatrix();
 	void loadViewMatrix();
@@ -25,8 +26,7 @@ protected:
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
 
-	glm::mat4 *projectionMatrix;
-	glm::mat4 *viewMatrix;
+	Scene *scene;
 
 	GLuint location_transformationMatrix;
 	GLuint location_projectionMatrix;

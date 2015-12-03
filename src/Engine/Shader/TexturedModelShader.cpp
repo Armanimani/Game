@@ -1,16 +1,18 @@
-#include "src\Engine\Shader\BasicShader.h"
+#include "src\Engine\Shader\TexturedModelShader.h"
+#include "src\Engine\Model\TexturedModel.h"
 #include "src\Engine\Math\GLMath.h"
 
 using glm::mat4;
 
-void BasicShader::installShader(){
+void TexturedModelShader::installShader(){
+
 	vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 	const GLchar* adapter[1];
-	std::string temp = readShaderCode("src/Engine/Shader/GLSL/BasicShaderVertexShader.glsl").c_str();
+	std::string temp = readShaderCode("src/Engine/Shader/GLSL/TexturedModelShaderVS.glsl").c_str();
 	adapter[0] = temp.c_str();
 	glShaderSource(vertexShaderID, 1, adapter, 0);
-	temp = readShaderCode("src/Engine/Shader/GLSL/BasicShaderFragmentShader.glsl").c_str();
+	temp = readShaderCode("src/Engine/Shader/GLSL/TexturedModelShaderFS.glsl").c_str();
 	adapter[0] = temp.c_str();
 	glShaderSource(fragmentShaderID, 1, adapter, 0);
 
@@ -34,8 +36,8 @@ void BasicShader::installShader(){
 	getAllUniformLocations();
 }
 
-void BasicShader::render(ModelEntity &entity){
-	
+void TexturedModelShader::render(TexturedModelEntity &entity){
+
 	startProgram();
 
 	loadTransformationMatrix(GLMath::createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale()));
@@ -43,14 +45,23 @@ void BasicShader::render(ModelEntity &entity){
 	loadViewMatrix();
 
 	glBindVertexArray(entity.model->getVertexArrayObjectID());
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, entity.model->getTexture().bufferID);
+
 	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 	glBindVertexArray(0);
+
 
 	stopProgram();
 }
 
-void BasicShader::getAllUniformLocations(){
+void TexturedModelShader::getAllUniformLocations(){
 
 	std::string string = " ";
 

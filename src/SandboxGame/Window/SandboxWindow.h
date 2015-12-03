@@ -10,7 +10,7 @@
 #include "src\Engine\Renderer\Renderer.h"
 #include "src\Engine\Model\Model.h"
 #include "src\Engine\Model\TexturedModel.h"
-#include "src\Engine\Entities\ModelEntity.h"
+#include "src\Engine\Scene\SceneManager.h"
 
 class SandboxWindow : public QGLWidget{
 
@@ -34,6 +34,8 @@ private:
 	Renderer renderer;
 	ColoredModel model;
 	TexturedModel model2;
+	SceneManager sceneManager;
+	Scene scene;
 	Camera camera;
 
 	QTimer timer;

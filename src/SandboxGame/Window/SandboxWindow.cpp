@@ -4,6 +4,7 @@
 #include "src\Engine\Model\ShapeGenerator.h"
 #include "src\Engine\Math\GLMath.h"
 #include "src\Engine\Model\OBJFile.h"
+#include "src\Engine\Entities\TexturedModelEntity.h"
 using std::vector;
 using glm::vec3;
 
@@ -40,8 +41,11 @@ void SandboxWindow::initializeGL(){
 	
 	glewInit();
 	renderer.initialize();
-	renderer.setProjectionMatrix(GLMath::createProjectionMatrix(settings.eng.FOV, (float)(width()) / (float)(height()), settings.eng.FAR_PLANE, settings.eng.NEAR_PLANE));
-	renderer.assignCamera(camera);
+
+
+	scene.setProjectionMatrix(GLMath::createProjectionMatrix(settings.eng.FOV, (float)(width()) / (float)(height()), settings.eng.FAR_PLANE, settings.eng.NEAR_PLANE));
+	scene.assignCamera(camera);
+	renderer.assignScene(scene);
 
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(1000 / settings.eng.MAX_FPS);
@@ -54,14 +58,18 @@ void SandboxWindow::initializeGL(){
 	cat.texturePath = "res/texture/M9.png";
 	cat.textureWidth = 512;
 	cat.textureHeight = 1024;
+
+	OBJFile dragon;
+	dragon.modelPath = "res/models/dragon2.obj";
 	model2 = ShapeGenerator::loadTexturedModelOBJFile(cat);
+	//model = ShapeGenerator::loadColoredModelOBJFile(dragon);
 
 	loader.processModel(&model2);
 
 
 	loader.load();
 
-	ModelEntity entity = ModelEntity(&model2,2,vec3(0.0,0.0,0.0),vec3(0.0,0.0,0.0),vec3(0.05,0.05,0.05));
+	TexturedModelEntity entity = TexturedModelEntity(&model2,vec3(0.0,0.0,0.0),vec3(0.0,0.0,0.0),vec3(0.05,0.05,0.05));
 	renderer.processEntity(entity);
 
 }
@@ -119,4 +127,4 @@ void SandboxWindow::checkKeyState(){
 	}
 }
 
-//deconstrutor: ModelRenderer.cleanup();
+//deconstrutor: ColoredModelRenderer.cleanup();

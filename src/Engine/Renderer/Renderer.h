@@ -1,7 +1,10 @@
 #pragma once
-#include "src\Engine\Renderer\ModelRenderer.h"
+#include "src\Engine\Renderer\ColoredModelRenderer.h"
+#include "src\Engine\Renderer\TexturedModelRenderer.h"
 #include "glm\glm.hpp"
 #include "src\Engine\Camera\Camera.h"
+#include "src\Engine\Lights\LightManager.h"
+#include "src\Engine\Scene\Scene.h"
 
 class Renderer {
 
@@ -14,20 +17,19 @@ public:
 	void prepare();
 	void cleanUp();
 
+	void assignScene(Scene &scene);
+
 	void render();
 
-	void assignCamera(Camera &camera);
-	void setProjectionMatrix(glm::mat4 projectionMatrix);
-
-	void processEntity(ModelEntity &entity);
+	void processEntity(ColoredModelEntity &entity);
+	void processEntity(TexturedModelEntity &entity);
 
 
 private:
 
-	Camera *camera;
+	ColoredModelRenderer coloredModelRenderer;
+	TexturedModelRenderer texturedModelRenderer;
 
-	ModelRenderer modelRenderer;
-	glm::mat4 projectionMatrix;
-	glm::mat4 viewMatrix;
+	Scene *scene;
 
 };

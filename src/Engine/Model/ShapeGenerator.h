@@ -13,6 +13,7 @@ public:
 	static TexturedModel create_textured_triangle();
 	static Model createCubeTest();
 	static TexturedModel loadTexturedModelOBJFile(OBJFile model);
+	static ColoredModel loadColoredModelOBJFile(OBJFile model);
 
 
 private:

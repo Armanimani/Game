@@ -15,3 +15,12 @@ void Loader::load(){
 	}
 
 }
+
+void Loader::cleanUp(){
+
+	for (auto model : models){
+		
+		model->cleanUp();
+	}
+
+}

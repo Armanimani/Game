@@ -296,3 +296,95 @@ TexturedModel ShapeGenerator::loadTexturedModelOBJFile(OBJFile model) {
 	
 	return ret;
 }
+
+ColoredModel ShapeGenerator::loadColoredModelOBJFile(OBJFile model){
+
+	ColoredModel ret;
+	QString path = QString::fromStdString(model.modelPath);
+	QFile file(path);
+	file.open(QIODevice::ReadOnly);
+	QTextStream input(&file);
+
+	if (!file.exists()){
+		std::cout << "File does not exists";
+		return ret;
+	}
+
+	std::vector<float> vertexData;
+	std::vector<float> normalData;
+	std::vector<int> faceData;
+
+	while (!input.atEnd()){
+
+		QString line = input.readLine();
+		QStringList list = line.split(" ");
+
+		if (list.at(0) == "v"){
+
+			vertexData.push_back(list.at(1).toFloat());
+			vertexData.push_back(list.at(2).toFloat());
+			vertexData.push_back(list.at(3).toFloat());
+		}
+
+		if (list.at(0) == "vn"){
+
+			normalData.push_back(list.at(1).toFloat());
+			normalData.push_back(list.at(2).toFloat());
+			normalData.push_back(list.at(3).toFloat());
+		}
+
+		if (list.at(0) == "f"){
+
+			for (int i = 1; i != 4; ++i){
+
+				QString line2 = list.at(i);
+				QStringList prop = line2.split("/");
+
+				faceData.push_back(prop.at(0).toFloat());
+				faceData.push_back(prop.at(1).toFloat());
+				faceData.push_back(prop.at(2).toFloat());
+
+			}
+		}
+	}
+
+	vector<float> verts;
+	vector<GLuint> index;
+
+
+	map<int, int>vertexNormalMap;
+
+	for (int i = 0; i != faceData.size(); i += 3){
+
+		index.push_back(faceData[i] - 1);
+		vertexNormalMap[faceData[i] - 1] = faceData[i + 2] - 1;
+	}
+
+
+	for (int i = 0; i != vertexNormalMap.size(); ++i){
+
+		int ind = i;
+		verts.push_back(vertexData[3 * ind]);
+		verts.push_back(vertexData[3 * ind + 1]);
+		verts.push_back(vertexData[3 * ind + 2]);
+
+		verts.push_back(1.0f);
+		verts.push_back(1.0f);
+		verts.push_back(1.0f);
+
+		ind = vertexNormalMap[i];
+		verts.push_back(normalData[2 * ind]);
+		verts.push_back(normalData[2 * ind + 1]);
+		verts.push_back(normalData[2 * ind + 2]);
+
+
+	}
+
+
+
+
+	ret.setVerts(verts);
+	ret.setIndinces(index);
+
+	return ret;
+}

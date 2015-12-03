@@ -1,18 +1,16 @@
-#include "src\Engine\Shader\BasicTexturedShader.h"
-#include "src\Engine\Model\TexturedModel.h"
+#include "src\Engine\Shader\ColoredModelShader.h"
 #include "src\Engine\Math\GLMath.h"
 
 using glm::mat4;
 
-void BasicTexturedShader::installShader(){
-
+void ColoredModelShader::installShader(){
 	vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 	const GLchar* adapter[1];
-	std::string temp = readShaderCode("src/Engine/Shader/GLSL/BasicTexturedShaderVertexShader.glsl").c_str();
+	std::string temp = readShaderCode("src/Engine/Shader/GLSL/ColoredModelShaderVS.glsl").c_str();
 	adapter[0] = temp.c_str();
 	glShaderSource(vertexShaderID, 1, adapter, 0);
-	temp = readShaderCode("src/Engine/Shader/GLSL/BasicTexturedShaderFragmentShader.glsl").c_str();
+	temp = readShaderCode("src/Engine/Shader/GLSL/ColoredModelShaderFS.glsl").c_str();
 	adapter[0] = temp.c_str();
 	glShaderSource(fragmentShaderID, 1, adapter, 0);
 
@@ -36,8 +34,39 @@ void BasicTexturedShader::installShader(){
 	getAllUniformLocations();
 }
 
-void BasicTexturedShader::render(ModelEntity &entity){
+void ColoredModelShader::loadLightColor(glm::vec3 color){
 
+	loadToUniform(location_lightColor, color);
+
+}
+
+void ColoredModelShader::loadLightPosition(glm::vec3 position){
+
+	loadToUniform(location_lightPosition, position);
+
+}
+
+void ColoredModelShader::loadAmbientLightning(glm::vec3 color){
+
+	loadToUniform(location_ambientLightning, color);
+}
+
+
+void ColoredModelShader::loadAmbientLight(AmbientLight &light){
+
+	loadAmbientLightning(light.getColor());
+
+}
+
+void ColoredModelShader::loadLight(Light &light){
+
+	loadLightColor(light.getColor());
+	loadLightPosition(light.getPosition());
+}
+
+
+void ColoredModelShader::render(ColoredModelEntity &entity){
+	
 	startProgram();
 
 	loadTransformationMatrix(GLMath::createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale()));
@@ -45,19 +74,21 @@ void BasicTexturedShader::render(ModelEntity &entity){
 	loadViewMatrix();
 
 	glBindVertexArray(entity.model->getVertexArrayObjectID());
-	
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, entity.model->getTexture().bufferID);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glDrawElements(GL_TRIANGLES, entity.model->getIndicies().size(), GL_UNSIGNED_INT, 0);
 
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
-
 
 	stopProgram();
 }
 
-void BasicTexturedShader::getAllUniformLocations(){
+void ColoredModelShader::getAllUniformLocations(){
 
 	std::string string = " ";
 
@@ -70,4 +101,12 @@ void BasicTexturedShader::getAllUniformLocations(){
 	string = "viewMatrix";
 	location_viewMatrix = getUniformLocation(string);
 
+	string = "ambinetLightning";
+	location_ambientLightning = getUniformLocation(string);
+
+	string = "lightColor";
+	location_lightColor = getUniformLocation(string);
+
+	string = "lightPosition";
+	location_lightPosition = getUniformLocation(string);
 }
